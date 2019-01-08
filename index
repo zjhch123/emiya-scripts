@@ -1,18 +1,15 @@
 #!/usr/bin/env node
 const script = process.argv[2]
-const eject = require('./scripts/eject.js')
-const build = require('./scripts/build.js')
-const dev = require('./scripts/dev.js')
 
 switch (script) {
   case 'build':
-    build()
+    require('./scripts/build.js')
     break;
   case 'dev':
-    dev()
+    require('./scripts/dev.js')
     break;
   case 'eject':
-    eject()
+    require('./scripts/eject.js')
     break;
   default:
     console.log(`Unknown script "${script}".`);

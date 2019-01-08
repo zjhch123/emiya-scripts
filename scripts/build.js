@@ -32,7 +32,7 @@ const printFileSizes = (stats, config) => {
   });
 }
 
-module.exports = () => {
+const start = () => {
   const spinner = ora(`building for production...`)
   spinner.start()
   webpack(webpackProd, (err, stats) => {
@@ -60,3 +60,5 @@ module.exports = () => {
     printFileSizes(stats, webpackProd)
   });
 }
+
+start()
