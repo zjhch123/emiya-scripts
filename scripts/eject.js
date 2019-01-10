@@ -107,7 +107,7 @@ const start = () => {
     default: false,
   }).then(answer => {
     if (!answer.shouldEject) {
-      console.log('Abord!')
+      console.log('Abort!')
       return
     }
     const folders = [
