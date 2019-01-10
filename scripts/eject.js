@@ -99,7 +99,7 @@ const start = () => {
   console.log(green('Ejected successfully!'));
 }
 
-const start = () => {
+const run = () => {
   inquirer.prompt({
     type: 'confirm',
     name: 'shouldEject',
@@ -132,4 +132,4 @@ const start = () => {
   })
 }
 
-start()
+run()
