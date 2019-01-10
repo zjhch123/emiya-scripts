@@ -4,6 +4,7 @@ const paths = require('./paths');
 module.exports = () => ({
   context: __dirname,
   resolve: {
+    modules: ['node_modules'],
     alias: {
       '@css': paths.appCSS,
       '@js': paths.appJS,
@@ -35,7 +36,22 @@ module.exports = () => ({
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              require('babel-preset-env'),
+              require('babel-preset-stage-2'),
+            ],
+            plugins: [
+              require("babel-plugin-add-module-exports"),
+              [require("babel-plugin-transform-runtime"), {
+                moduleName: path.resolve(__dirname, '..', 'node_modules', 'babel-runtime'),
+              }],
+              require("babel-plugin-transform-class-properties"),
+            ]
+          }
+        }]
       },
       {
         test: /\.html$/,
