@@ -91,7 +91,6 @@ const start = () => {
   fs.copySync(path.resolve(scriptRoot, 'config'), path.join(root, 'config'))
 
   fs.copySync(path.resolve(scriptRoot, 'scripts'), path.join(root, 'scripts'))
-  fs.copyFileSync(path.resolve(scriptRoot, '.babelrc'), path.join(root, '.babelrc'))
   fs.copyFileSync(path.resolve(scriptRoot, '.eslintignore'), path.join(root, '.eslintignore'))
   fs.copyFileSync(path.resolve(scriptRoot, '.eslintrc.js'), path.join(root, '.eslintrc.js'))
   fs.copyFileSync(path.resolve(scriptRoot, 'postcss.config.js'), path.join(root, 'postcss.config.js'))
