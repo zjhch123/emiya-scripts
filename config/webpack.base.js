@@ -48,7 +48,8 @@ module.exports = () => ({
               [require("babel-plugin-transform-runtime"), {
                 moduleName: path.resolve(__dirname, '..', 'node_modules', 'babel-runtime'),
               }],
-              require("babel-plugin-transform-class-properties"),
+              require.resolve("babel-plugin-transform-decorators-legacy"),
+              [require("babel-plugin-transform-class-properties"), { loose: true }],
             ]
           }
         }]
