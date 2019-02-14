@@ -101,5 +101,10 @@ module.exports = () => ({
       }
     ]
   },
-  plugins: []
+  plugins: [],
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  }
 })

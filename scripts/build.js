@@ -20,6 +20,8 @@ const printFileSizes = (stats, config) => {
   });
   assets.sort((a, b) => b.size - a.size);
   const longestSizeLabelLength = Math.max.apply(null, assets.map(a => a.sizeLabel.length));
+
+  console.log('\nAfter gzip size:');
   assets.forEach((asset) => {
     let sizeLabel = asset.sizeLabel;
     const sizeLength = sizeLabel.length;
@@ -33,32 +35,38 @@ const printFileSizes = (stats, config) => {
 }
 
 const start = () => {
-  const spinner = ora(`building for production...`)
-  spinner.start()
+  const spinner = ora(`building for production...`);
+  spinner.start();
   webpack(webpackProd, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       if (err.details) {
         console.error(err.details);
       }
+      spinner.warn('Build Error!');
       return;
     }
   
     const info = stats.toJson();
   
     if (stats.hasErrors()) {
-      console.error(info.errors);
-      return
+      info.errors.forEach(msg => {
+        console.error(msg);
+      });
+      
+      spinner.warn('Build Error!');
+      return;
     }
   
     if (stats.hasWarnings()) {
-      console.warn(info.warnings);
-      return
+      info.warnings.forEach(msg => {
+        console.warn(msg);
+      });
     }
 
-    spinner.succeed('Build Success!')
-    printFileSizes(stats, webpackProd)
+    spinner.succeed('Build Success!');
+    printFileSizes(stats, webpackProd);
   });
 }
 
-start()
+start();
