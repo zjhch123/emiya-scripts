@@ -6,6 +6,26 @@ const filesize = require('filesize')
 const chalk = require('chalk')
 const ora = require('ora')
 const webpackProd = require('../config/webpack.prod.js')
+const paths = require('../config/paths')
+
+const handlerCustomConfig = (baseConfig) => {
+  const customConfig = paths.appCustomConfig
+
+  if (!fs.existsSync(customConfig)) {
+    return baseConfig
+  }
+
+  const customConfigModule = require(customConfig)
+  const prodConfigChain = customConfigModule.prodConfigChain
+
+  if (Object.prototype.toString.call(prodConfigChain) !== '[object Function]') {
+    return baseConfig
+  }
+
+  const ret = prodConfigChain(baseConfig)
+
+  return (typeof ret !== 'undefined' && ret !== null) ? ret : baseConfig
+}
 
 const printFileSizes = (stats, config) => {
   const outputPath = config.output.path;
@@ -36,8 +56,10 @@ const printFileSizes = (stats, config) => {
 
 const start = () => {
   const spinner = ora(`building for production...`);
+  const webpackConfig = handlerCustomConfig(webpackProd)
+
   spinner.start();
-  webpack(webpackProd, (err, stats) => {
+  webpack(webpackConfig, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       if (err.details) {
