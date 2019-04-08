@@ -1,9 +1,9 @@
 {
   "name": "emiya-scripts",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "脚手架emiya使用的emiya-scripts",
   "bin": {
-    "emiya-scripts": "./index"
+    "emiya-scripts": "index"
   },
   "keywords": [
     "webpack",

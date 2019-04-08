@@ -1,19 +1,43 @@
+const fs = require('fs')
+
 const open = require('open')
 const webpack = require('webpack')
-const webpackDevServer = require('webpack-dev-server')
+const WebpackDevServer = require('webpack-dev-server')
+
 const webpackDev = require('../config/webpack.dev.js')
+const paths = require('../config/paths')
+
+const handlerCustomConfig = (baseConfig) => {
+  const customConfig = paths.appCustomConfig
+
+  if (!fs.existsSync(customConfig)) {
+    return baseConfig
+  }
+
+  const customConfigModule = require(customConfig)
+  const devConfigChain = customConfigModule.devConfigChain
+
+  if (Object.prototype.toString.call(devConfigChain) !== '[object Function]') {
+    return baseConfig
+  }
+
+  const ret = devConfigChain(baseConfig)
+
+  return (typeof ret !== 'undefined' && ret !== null) ? ret : baseConfig
+}
 
 const start = () => {
-  const config = webpackDev
-  const options = config.devServer
+  const webpackConfig = handlerCustomConfig(webpackDev)
+  const devServerOptions = webpackConfig.devServer
 
-  webpackDevServer.addDevServerEntrypoints(config, options);
-  const compiler = webpack(config);
-  const server = new webpackDevServer(compiler, options);
+  WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions);
 
-  server.listen(8080, options.host, () => {
+  const compiler = webpack(webpackConfig);
+  const server = new WebpackDevServer(compiler, devServerOptions);
+
+  server.listen(8080, devServerOptions.host, () => {
     console.log('dev server listening on port 8080');
-    open(`http://${options.host}:8080`)
+    open(`http://${devServerOptions.host}:8080`)
   });
 }
 

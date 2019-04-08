@@ -4,7 +4,22 @@
 
 单独使用此包没有任何意义，请结合项目脚手架[Emiya](https://github.com/zjhch123/Emiya)使用!
 
+可以添加配置文件覆盖/新增原有的webpack配置
+```typescript
+// emiya.config.js
+module.exports = {
+  prodConfigChain: (webpackConfig: object): object|void => {
+    // Do something custom for webpack config - prod
+    // return webpackConfig or not
+  },
+  devConfigChain: (webpackConfig: object): object|void => {
+    // Do something custom for webpack config - dev
+    // return webpackConfig or not
+  }
+}
 ```
+
+```shell
 cnpm i emiya -g
 
 emiya -w project1
