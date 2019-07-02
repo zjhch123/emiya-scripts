@@ -29,6 +29,19 @@ const verifyAbsent = (file) => {
   }
 }
 
+const staticResources = {
+  folder: [ 
+    "config",
+    "scripts" 
+  ],
+  file: [
+    ".browserslistrc",
+    ".eslintignore",
+    ".eslintrc.js",
+    "postcss.config.js"
+  ],
+}
+
 const start = () => {
   if (appPackage.devDependencies) {
     // We used to put react-scripts in devDependencies
@@ -88,13 +101,14 @@ const start = () => {
     }
   )
 
-  fs.copySync(path.resolve(scriptRoot, 'config'), path.join(root, 'config'))
+  staticResources.folder.forEach(folderName => {
+    fs.copySync(path.resolve(scriptRoot, folderName), path.join(root, folderName))
+  })
 
-  fs.copySync(path.resolve(scriptRoot, 'scripts'), path.join(root, 'scripts'))
-  fs.copyFileSync(path.resolve(scriptRoot, '.eslintignore'), path.join(root, '.eslintignore'))
-  fs.copyFileSync(path.resolve(scriptRoot, '.eslintrc.js'), path.join(root, '.eslintrc.js'))
-  fs.copyFileSync(path.resolve(scriptRoot, 'postcss.config.js'), path.join(root, 'postcss.config.js'))
-
+  staticResources.file.forEach(fileName => {
+    fs.copyFileSync(path.resolve(scriptRoot, fileName), path.join(root, fileName))
+  })
+  
   console.log(green('Ejected successfully!'));
 }
 

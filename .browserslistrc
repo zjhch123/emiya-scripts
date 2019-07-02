@@ -1,0 +1,7 @@
+# Browsers that we support
+
+last 2 versions
+> 1%
+ie >= 8
+iOS >= 8
+Android >= 4

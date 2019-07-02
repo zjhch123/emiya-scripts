@@ -4,15 +4,7 @@ const postcssImport = require('postcss-import')
 
 module.exports = {
   plugins: [
-    autoprefixer({
-      browsers: [
-        'last 2 versions',
-        '> 1%',
-        'ie >= 8',
-        'iOS >= 8',
-        'Android >= 4',
-      ],
-    }),
+    autoprefixer(),
     postcssImport(),
     cssnano({
       safe: true,
