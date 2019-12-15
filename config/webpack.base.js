@@ -24,7 +24,7 @@ module.exports = () => ({
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|lib/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: [ paths.appSrc ],
@@ -35,7 +35,7 @@ module.exports = () => ({
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|lib/,
         use: [{
           loader: 'babel-loader',
           options: {
