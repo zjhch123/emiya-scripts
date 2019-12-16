@@ -1,14 +1,36 @@
 const webpack = require('webpack');
-const path = require('path');
 const address = require('address');
-const paths = require('./paths');
-const config = require('./webpack.base.js')();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const cssnano = require('cssnano');
+const autoprefixer = require('autoprefixer');
+const postcssImport = require('postcss-import');
 
-config.mode = 'development'
+const paths = require('./paths');
+const config = require('./webpack.base.js')();
 
-config.output.publicPath = '/'
+const commonStyleLoaders = [
+  require.resolve('style-loader'),
+  require.resolve('css-loader'),
+  { 
+    loader: require.resolve('postcss-loader'),
+    options: {
+      ident: 'postcss',
+      plugins: [
+        autoprefixer(),
+        postcssImport(),
+        cssnano({
+          safe: true,
+          core: false,
+        }),
+      ]
+    },
+  },
+];
+
+config.mode = 'development';
+
+config.output.publicPath = '/';
 
 config.devServer = {
   historyApiFallback: true,
@@ -18,38 +40,37 @@ config.devServer = {
   inline: true,
   hot: true,
   publicPath: '/',
-  host: address.ip() || '0.0.0.0'
-}
+  host: address.ip() || '0.0.0.0',
+},
 
 config.module.rules.push({
-  test: /\.s?css$/,
+  test: /\.scss$/,
   use: [
-    'style-loader',
-    'css-loader',
-    { 
-      loader: 'postcss-loader', 
-      options: { 
-        config: {
-          path: path.resolve(__dirname, '..') 
-        } 
-      }
-    },
-    'sass-loader'
+    ...commonStyleLoaders,
+    require.resolve('sass-loader'),
   ],
-  exclude: /node_modules/
+  exclude: /node_modules/,
+});
+
+config.module.rules.push({
+  test: /\.css$/,
+  use: commonStyleLoaders,
+  exclude: /node_modules/,
 });
 
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
   new webpack.SourceMapDevToolPlugin({
     filename: '[file].map',
-    exclude: ['vendor.js']
+    exclude: ['vendor.js'],
   }),
   new HtmlWebpackPlugin({
     inject: true,
     template: paths.appIndexHTML,
   }),
-  new FriendlyErrorsPlugin()
+  new FriendlyErrorsPlugin(),
 );
+
+config.optimization.nodeEnv = 'development';
 
 module.exports = config;

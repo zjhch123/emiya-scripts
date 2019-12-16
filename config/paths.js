@@ -5,12 +5,14 @@ const fs = require('fs');
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
-const appSrc = resolveApp('src')
+const appSrc = resolveApp('src');
 
 /*
 Emiya-Project
 |-build
 |-emiya.config.js
+|-.eslintignore
+|-.eslintrc.js
 |-node_modules
 |-src
   |-assets
@@ -25,7 +27,8 @@ module.exports = {
   appBuildPath: resolveApp('build'),
   appCustomConfig: resolveApp('emiya.config.js'),
   appNodeModules: resolveApp('node_modules'),
-  
+  appEslintIgnore: resolveApp('.eslintignore'),
+  appEslintConfig: resolveApp('.eslintrc.js'),
   appSrc: appSrc,
   appIndexHTML: path.join(appSrc, 'index.html'),
   appIndexJS: path.join(appSrc, 'App.js'),
