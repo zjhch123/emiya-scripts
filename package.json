@@ -17,18 +17,17 @@
     "@babel/cli": "^7.7.5",
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
-    "address": "^1.1.2",
-    "autoprefixer": "^9.7.3",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "chalk": "^3.0.0",
     "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.5.0",
     "css-loader": "^3.3.2",
-    "cssnano": "^4.1.10",
     "eslint": "^6.7.2",
     "eslint-config-standard": "^14.1.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^3.0.3",
+    "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
@@ -40,11 +39,17 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "inquirer": "^7.0.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.0",
     "open": "^7.0.0",
     "ora": "^4.0.3",
     "pnp-webpack-plugin": "^1.5.0",
-    "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
+    "postcss-flexbugs-fixes": "4.1.0",
+    "postcss-normalize": "8.0.1",
+    "postcss-preset-env": "6.7.0",
+    "regenerator-runtime": "^0.13.3",
+    "resolve-url-loader": "^3.1.1",
     "sass-loader": "^8.0.0",
     "script-loader": "^0.7.2",
     "style-loader": "^1.0.1",
@@ -53,7 +58,5 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
   },
-  "devDependencies": {
-    "@babel/polyfill": "^7.7.0"
-  }
+  "devDependencies": {}
 }

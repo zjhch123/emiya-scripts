@@ -13,5 +13,8 @@ module.exports = {
     'html'
   ],
   rules: {
+    'no-unused-vars': 0,
+    'comma-dangle': ['error', 'always-multiline'],
+    'no-new': 'off',
   }
 }

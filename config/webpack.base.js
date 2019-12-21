@@ -1,10 +1,63 @@
-const path = require('path');
-const PnpWebpackPlugin = require('pnp-webpack-plugin');
-const paths = require('./paths');
+const path = require('path')
+const PnpWebpackPlugin = require('pnp-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const postcssNormalize = require('postcss-normalize')
+const paths = require('./paths')
 
-console.log(paths.appNodeModules)
+const isDev = process.env.NODE_ENV === 'development'
+const isProd = !isDev
+
+const getStyleLoaders = ({ cssOptions, shouldUseSourceMap = false, shouldUseProcessor = false }) => {
+  const loaders = [
+    isDev && require.resolve('style-loader'),
+    isProd && {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../../',
+      },
+    },
+    { 
+      loader: require.resolve('css-loader'),
+      options: cssOptions
+    },
+    { 
+      loader: require.resolve('postcss-loader'),
+      options: {
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+          postcssNormalize(),
+        ],
+        sourceMap: isProd && shouldUseSourceMap,
+      }
+    },
+  ].filter(Boolean)
+
+  if (shouldUseProcessor) {
+    loaders.push({
+      loader: require.resolve('resolve-url-loader'),
+      options: {
+        sourceMap: isProd && shouldUseSourceMap,
+      },
+    }, {
+      loader: require.resolve('sass-loader'),
+      options: {
+        sourceMap: true,
+      },
+    })
+  }
+
+  return loaders
+}
 
 module.exports = () => ({
+  mode: isDev ? 'development' : 'production',
   resolve: {
     modules: ['node_modules', paths.appNodeModules],
     plugins: [
@@ -33,14 +86,10 @@ module.exports = () => ({
   module: {
     strictExportPresence: true,
     rules: [
+      { parser: { requireEnsure: false } },
       {
-        test: /\.lib\.js$/,
-        include: paths.appSrc,
-        loader: require.resolve('script-loader'),
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /\.lib\.jsx?$/,
+        test: /\.js$/,
+        exclude: /\.lib\.js$/,
         include: paths.appSrc,
         enforce: 'pre',
         options: {
@@ -52,63 +101,78 @@ module.exports = () => ({
         loader: require.resolve('eslint-loader'),
       },
       {
-        test: /\.jsx?$/,
-        exclude: /\.lib\.jsx?$/,
-        include: paths.appSrc,
-        use: [{
-          loader: require.resolve('babel-loader'),
-          options: {
-            presets: [
-              require.resolve('@babel/preset-env'),
+        oneOf: [
+          {
+            test: /\.html$/,
+            include: paths.appSrc,
+            loader: require.resolve('html-loader'),
+          },
+          {
+            test: /\.(png|jpg|gif|svg|bmp)$/,
+            use: [
+              {
+                loader: require.resolve('url-loader'),
+                options: {
+                  limit: 8192,
+                  name: 'static/images/[name].[ext]',
+                  esModule: false,
+                },
+              },
             ],
-            plugins: [],
           },
-        }],
-      },
-      {
-        test: /\.html$/,
-        exclude: /node_modules/,
-        loader: require.resolve('html-loader'),
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: [
           {
-            loader: require.resolve('url-loader'),
-            options: {
-              limit: 8192,
-              name: 'static/images/[name].[ext]',
-            },
+            test: /\.lib\.js$/,
+            include: paths.appSrc,
+            loader: require.resolve('script-loader'),
           },
-        ],
-      },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: [
           {
-            loader: require.resolve('url-loader'),
-            options: {
-              limit: 8192,
-              mimetype: 'application/font-woff',
-              name: 'static/fonts/[name].[ext]',
-            },
+            test: /\.js$/,
+            exclude: /\.lib\.js$/,
+            include: paths.appSrc,
+            use: [{
+              loader: require.resolve('babel-loader'),
+              options: {
+                presets: [
+                  [require.resolve('@babel/preset-env'), {
+                    useBuiltIns: 'usage',
+                    corejs: {
+                      version: 3,
+                      proposals: false,
+                    },
+                  }],
+                ],
+              },
+            }],
           },
-        ],
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use:
-        [
+          {
+            test: /\.css$/,
+            use: getStyleLoaders({
+              cssOptions: {
+                importLoaders: 1,
+              },
+              shouldUseSourceMap: isProd,
+            }),
+            sideEffects: true,
+          },
+          {
+            test: /\.scss$/,
+            use: getStyleLoaders({
+              cssOptions: {
+                importLoaders: 2,
+              },
+              shouldUseSourceMap: isProd,
+              shouldUseProcessor: true,
+            }),
+            sideEffects: true,
+          },
           {
             loader: require.resolve('file-loader'),
-            options:
-            {
-              limit: 8192,
-              mimetype: 'application/font-woff',
-              name: 'static/fonts/[name].[ext]',
+            exclude: [/\.s?css$/, /\.js$/, /\.lib\.js$/, /\.(png|jpg|gif|svg|bmp)$/, /\.html$/],
+            options: {
+              name: 'static/assets/[name].[ext]',
             },
           },
-        ],
+        ]
       },
     ],
   },
@@ -118,4 +182,4 @@ module.exports = () => ({
       chunks: 'all',
     },
   },
-});
+})
