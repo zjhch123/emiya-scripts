@@ -167,7 +167,7 @@ module.exports = () => ({
           },
           {
             loader: require.resolve('file-loader'),
-            exclude: [/\.s?css$/, /\.js$/, /\.lib\.js$/, /\.(png|jpg|gif|svg|bmp)$/, /\.html$/],
+            exclude: [/\.s?css$/, /\.js$/, /\.lib\.js$/, /\.(png|jpg|gif|svg|bmp)$/, /\.html$/, /\.json$/],
             options: {
               name: 'static/assets/[name].[ext]',
             },
