@@ -1,8 +1,9 @@
-name: Node.js Package
+name: Publish
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    branches:
+    - v3
 
 jobs:
   publish-npm:
