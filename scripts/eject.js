@@ -35,7 +35,6 @@ const staticResources = {
     'scripts'
   ],
   file: [
-    '.browserslistrc',
     '.eslintignore',
     '.eslintrc.js',
     'postcss.config.js'
