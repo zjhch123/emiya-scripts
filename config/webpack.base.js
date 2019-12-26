@@ -127,7 +127,6 @@ module.exports = () => ({
           },
           {
             test: /\.js$/,
-            exclude: /\.lib\.js$/,
             include: paths.appSrc,
             use: [{
               loader: require.resolve('babel-loader'),
