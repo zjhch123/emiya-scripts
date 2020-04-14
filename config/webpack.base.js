@@ -89,14 +89,12 @@ module.exports = () => ({
       { parser: { requireEnsure: false } },
       {
         test: /\.js$/,
-        exclude: /\.lib\.js$/,
         include: paths.appSrc,
         enforce: 'pre',
         options: {
-          cache: true,
-          resolvePluginsRelativeTo: __dirname,
           formatter: require.resolve('eslint-friendly-formatter'),
-          configFile: path.resolve(__dirname, '../', '.eslintrc.js'),
+          configFile: paths.appEslintConfig,
+          ignorePath: paths.appEslintIgnore,
         },
         loader: require.resolve('eslint-loader'),
       },

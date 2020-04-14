@@ -34,10 +34,7 @@ const staticResources = {
     'config',
     'scripts'
   ],
-  file: [
-    '.eslintignore',
-    '.eslintrc.js',
-  ]
+  file: []
 }
 
 const start = () => {
