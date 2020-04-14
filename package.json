@@ -1,6 +1,6 @@
 {
   "name": "emiya-scripts",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "脚手架emiya使用的emiya-scripts",
   "bin": {
     "emiya-scripts": "index"
