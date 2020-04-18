@@ -4,13 +4,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const postcssNormalize = require('postcss-normalize')
 const paths = require('./paths')
 
-const isDev = process.env.NODE_ENV === 'development'
-const isProd = !isDev
-
-const getStyleLoaders = ({ cssOptions, shouldUseSourceMap = false, shouldUseProcessor = false }) => {
+const getStyleLoaders = (isDev, { cssOptions, shouldUseSourceMap = false, shouldUseProcessor = false }) => {
   const loaders = [
     isDev && require.resolve('style-loader'),
-    isProd && {
+    !isDev && {
       loader: MiniCssExtractPlugin.loader,
       options: {
         publicPath: '../../',
@@ -34,7 +31,7 @@ const getStyleLoaders = ({ cssOptions, shouldUseSourceMap = false, shouldUseProc
           }),
           postcssNormalize(),
         ],
-        sourceMap: isProd && shouldUseSourceMap,
+        sourceMap: !isDev && shouldUseSourceMap,
       }
     },
   ].filter(Boolean)
@@ -43,7 +40,7 @@ const getStyleLoaders = ({ cssOptions, shouldUseSourceMap = false, shouldUseProc
     loaders.push({
       loader: require.resolve('resolve-url-loader'),
       options: {
-        sourceMap: isProd && shouldUseSourceMap,
+        sourceMap: !isDev && shouldUseSourceMap,
       },
     }, {
       loader: require.resolve('sass-loader'),
@@ -56,7 +53,7 @@ const getStyleLoaders = ({ cssOptions, shouldUseSourceMap = false, shouldUseProc
   return loaders
 }
 
-module.exports = () => ({
+module.exports = (isDev) => ({
   mode: isDev ? 'development' : 'production',
   resolve: {
     modules: ['node_modules', paths.appNodeModules],
@@ -89,14 +86,12 @@ module.exports = () => ({
       { parser: { requireEnsure: false } },
       {
         test: /\.js$/,
-        exclude: /\.lib\.js$/,
         include: paths.appSrc,
         enforce: 'pre',
         options: {
-          cache: true,
-          resolvePluginsRelativeTo: __dirname,
           formatter: require.resolve('eslint-friendly-formatter'),
-          configFile: path.resolve(__dirname, '../', '.eslintrc.js'),
+          configFile: paths.appEslintConfig,
+          ignorePath: paths.appEslintIgnore,
         },
         loader: require.resolve('eslint-loader'),
       },
@@ -145,21 +140,21 @@ module.exports = () => ({
           },
           {
             test: /\.css$/,
-            use: getStyleLoaders({
+            use: getStyleLoaders(isDev, {
               cssOptions: {
                 importLoaders: 1,
               },
-              shouldUseSourceMap: isProd,
+              shouldUseSourceMap: !isDev,
             }),
             sideEffects: true,
           },
           {
             test: /\.scss$/,
-            use: getStyleLoaders({
+            use: getStyleLoaders(isDev, {
               cssOptions: {
                 importLoaders: 2,
               },
-              shouldUseSourceMap: isProd,
+              shouldUseSourceMap: !isDev,
               shouldUseProcessor: true,
             }),
             sideEffects: true,

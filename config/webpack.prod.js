@@ -2,7 +2,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const paths = require('./paths')
-const config = require('./webpack.base.js')()
+const config = require('./webpack.base.js')(false)
 
 config.plugins.push(
   new CleanWebpackPlugin(),

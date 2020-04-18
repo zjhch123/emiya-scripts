@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const { devServerConfig } = require('./webpack.dev-server')
 const paths = require('./paths')
-const config = require('./webpack.base.js')()
+const config = require('./webpack.base.js')(true)
 
 config.output.publicPath = '/'
 
