@@ -4,7 +4,8 @@
 
 单独使用此包没有任何意义，请结合项目脚手架[Emiya](https://github.com/zjhch123/Emiya)使用!
 
-可以添加配置文件覆盖/新增原有的webpack配置
+可以添加配置文件 覆盖/新增 webpack配置
+
 ```typescript
 // emiya.config.js
 module.exports = {
@@ -20,9 +21,9 @@ module.exports = {
 ```
 
 ```shell
-cnpm i emiya -g
+npm i emiya -g
 
 emiya -w project1
 cd project1
-cnpm i
+npm i
 ```
