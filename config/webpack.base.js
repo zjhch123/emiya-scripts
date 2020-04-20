@@ -1,8 +1,7 @@
-const path = require('path')
-const PnpWebpackPlugin = require('pnp-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const postcssNormalize = require('postcss-normalize')
-const paths = require('./paths')
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const postcssNormalize = require('postcss-normalize');
+const paths = require('./paths');
 
 const getStyleLoaders = (isDev, { cssOptions, shouldUseSourceMap = false, shouldUseProcessor = false }) => {
   const loaders = [
@@ -13,11 +12,11 @@ const getStyleLoaders = (isDev, { cssOptions, shouldUseSourceMap = false, should
         publicPath: '../../',
       },
     },
-    { 
+    {
       loader: require.resolve('css-loader'),
-      options: cssOptions
+      options: cssOptions,
     },
-    { 
+    {
       loader: require.resolve('postcss-loader'),
       options: {
         ident: 'postcss',
@@ -32,9 +31,9 @@ const getStyleLoaders = (isDev, { cssOptions, shouldUseSourceMap = false, should
           postcssNormalize(),
         ],
         sourceMap: !isDev && shouldUseSourceMap,
-      }
+      },
     },
-  ].filter(Boolean)
+  ].filter(Boolean);
 
   if (shouldUseProcessor) {
     loaders.push({
@@ -47,11 +46,11 @@ const getStyleLoaders = (isDev, { cssOptions, shouldUseSourceMap = false, should
       options: {
         sourceMap: true,
       },
-    })
+    });
   }
 
-  return loaders
-}
+  return loaders;
+};
 
 module.exports = (isDev) => ({
   mode: isDev ? 'development' : 'production',
@@ -166,7 +165,7 @@ module.exports = (isDev) => ({
               name: 'static/assets/[name].[ext]',
             },
           },
-        ]
+        ],
       },
     ],
   },
@@ -176,4 +175,4 @@ module.exports = (isDev) => ({
       chunks: 'all',
     },
   },
-})
+});
