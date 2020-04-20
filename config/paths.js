@@ -1,9 +1,9 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 
-const appDirectory = fs.realpathSync(process.cwd())
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
-const appSrc = resolveApp('src')
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const appSrc = resolveApp('src');
 
 /*
 Emiya-Project
@@ -33,4 +33,4 @@ module.exports = {
   appCSS: path.join(appSrc, 'css'),
   appJS: path.join(appSrc, 'js'),
   appAssets: path.join(appSrc, 'assets'),
-}
+};

@@ -1,6 +1,6 @@
-const paths = require('./paths')
+const paths = require('./paths');
 
-const devServerDefaultHost = '0.0.0.0'
+const devServerDefaultHost = '0.0.0.0';
 
 const devServerConfig = () => ({
   compress: true,
@@ -14,9 +14,9 @@ const devServerConfig = () => ({
   publicPath: '/',
   quiet: true,
   host: process.env.HOST || devServerDefaultHost,
-})
+});
 
 module.exports = {
   devServerConfig,
   devServerDefaultHost,
-}
+};
