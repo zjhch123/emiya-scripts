@@ -7,7 +7,7 @@ const devServerConfig = () => ({
   historyApiFallback: true,
   overlay: true,
   stats: 'errors-only',
-  contentBase: paths.appIndexHTML,
+  contentBase: paths.appSrc,
   inline: true,
   watchContentBase: true,
   hot: true,
