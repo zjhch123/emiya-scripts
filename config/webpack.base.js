@@ -85,6 +85,7 @@ module.exports = (isDev) => ({
       { parser: { requireEnsure: false } },
       {
         test: /\.js$/,
+        exclude: /\.lib\.js$/,
         include: paths.appSrc,
         enforce: 'pre',
         options: {
@@ -174,6 +175,16 @@ module.exports = (isDev) => ({
   optimization: {
     splitChunks: {
       chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          test: /node_modules/,
+          name: 'vendors',
+        },
+        externals: {
+          test: /\.lib\.js/,
+          name: 'externals',
+        },
+      },
     },
   },
 });
