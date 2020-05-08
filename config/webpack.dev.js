@@ -11,10 +11,6 @@ config.devServer = devServerConfig();
 
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.SourceMapDevToolPlugin({
-    filename: '[file].map',
-    exclude: ['vendor.js'],
-  }),
   new HtmlWebpackPlugin({
     inject: true,
     template: paths.appIndexHTML,
