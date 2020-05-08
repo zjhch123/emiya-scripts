@@ -169,6 +169,7 @@ module.exports = (isDev) => ({
       },
     ],
   },
+  devtool: isDev ? 'source-map' : false,
   plugins: [],
   optimization: {
     splitChunks: {
