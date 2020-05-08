@@ -179,10 +179,12 @@ module.exports = (isDev) => ({
         vendors: {
           test: /node_modules/,
           name: 'vendors',
+          minSize: 0,
         },
         externals: {
           test: /\.lib\.js/,
           name: 'externals',
+          minSize: 0,
         },
       },
     },
