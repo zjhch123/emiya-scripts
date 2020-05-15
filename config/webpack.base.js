@@ -83,9 +83,8 @@ module.exports = (isDev) => ({
     strictExportPresence: true,
     rules: [
       { parser: { requireEnsure: false } },
-      {
+      !isDev && {
         test: /\.js$/,
-        exclude: /\.lib\.js$/,
         include: paths.appSrc,
         enforce: 'pre',
         options: {
@@ -168,7 +167,7 @@ module.exports = (isDev) => ({
           },
         ],
       },
-    ],
+    ].filter(Boolean),
   },
   devtool: isDev ? 'source-map' : false,
   plugins: [],
